@@ -151,6 +151,10 @@
     <div class="toast" id="toast"></div>
   </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  emailjs.init("f_GM9u7f-_QqUdI8d");
+</script>
 <script>
   const stage = document.getElementById('stage');
   const fakeBtn = document.getElementById('fakeBtn');
@@ -205,6 +209,10 @@
   function notify() {
     toast.textContent = 'She said yes 🎉';
     toast.classList.add('show');
+
+    emailjs.send("service_45znil8", "template_t7iuuvp", {
+      message: "She said yes 🎉"
+    });
 
     if ('Notification' in window) {
       if (Notification.permission === 'granted') {
