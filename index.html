@@ -7,13 +7,13 @@
 <style>
   :root{
     --bg: #F2EFE6;
-    --ink: #181818;
-    --ink-soft: #5b5850;
+    --ink: #F7F4EC;
+    --ink-soft: #d9d4c4;
     --real: #1B5E4F;
     --real-dark: #134539;
     --fake: #E8A33D;
     --fake-dark: #b87a1f;
-    --line: #d8d2c2;
+    --line: rgba(255,255,255,0.25);
   }
 
   * { box-sizing: border-box; }
@@ -21,7 +21,6 @@
   html, body {
     margin: 0;
     height: 100%;
-    background: var(--bg);
     color: var(--ink);
     font-family: 'Space Grotesk', system-ui, sans-serif;
   }
@@ -31,6 +30,51 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
+  }
+
+  .bg-slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: #111;
+  }
+
+  .bg-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: crossfade 14s infinite;
+  }
+  .bg-img:nth-child(1) {
+    background-image: url('bg1.jpg');
+    animation-delay: 0s;
+  }
+  .bg-img:nth-child(2) {
+    background-image: url('bg2.jpg');
+    animation-delay: 7s;
+  }
+
+  @keyframes crossfade {
+    0%   { opacity: 0; }
+    6%   { opacity: 1; }
+    44%  { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(10,10,10,0.55), rgba(10,10,10,0.65));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-img { animation: none; opacity: 1; }
+    .bg-img:nth-child(2) { opacity: 0; }
   }
 
   .wrap {
@@ -75,7 +119,7 @@
     top: 90px;
     transform: translateX(-50%);
     background: var(--real);
-    color: #DB3B25;
+    color: #fff;
     border: none;
     border-radius: 10px;
     padding: 16px 34px;
@@ -99,7 +143,7 @@
     top: 90px;
     transform: translate(-50%, 0);
     background: var(--fake);
-    color: #A720AB;
+    color: #1a1200;
     border: 2px dashed var(--fake-dark);
     border-radius: 10px;
     padding: 16px 34px;
@@ -115,7 +159,7 @@
   .toast {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 0.85rem;
-    color: var(--real-dark);
+    color: var(--ink);
     margin-top: 1.6rem;
     min-height: 1.4em;
     opacity: 0;
@@ -138,9 +182,16 @@
 </head>
 <body>
 
+  <div class="bg-slideshow">
+    <div class="bg-img"></div>
+    <div class="bg-img"></div>
+  </div>
+  <div class="bg-overlay"></div>
+
   <div class="wrap">
     <div class="eyebrow">Status: Beautiful Girl Detected</div>
     <h1>I want to try again, do you?</h1>
+    <p class="sub">(try both)</p>
 
     <div class="stage" id="stage">
       <button class="real-btn" id="realBtn">Yes</button>
